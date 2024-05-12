@@ -18,6 +18,7 @@ var ctx; // screams in js i hate this
 let blackholes = [];
 
 window.addEventListener("load", () => {
+    alert("womp womp");
     canvas = document.createElement("canvas");
 
     canvas.height = window.innerHeight;
