@@ -1,23 +1,15 @@
 import './style.css'
-/** 
-    * Represents a blackhole
-    * @typedef {Object} Blackhole
-    * @property {Number} x
-    * @property {Number} y
-    * @property {Number} mass
-    */
+import { addEventListeners } from './eventlisteners';
+import { drawBlackholes, setupBlackholes } from './blackholes';
 
 /** @type {HTMLCanvasElement} */
 var canvas
 /** @type {CanvasRenderingContext2D} */
 var ctx; // screams in js i hate this
 
-/** @type {Blackhole[]}
-    * all blackholes in the scene 
-    */
-let blackholes = [];
-
 window.addEventListener("load", () => {
+    setupBlackholes();
+
     canvas = document.createElement("canvas");
 
     canvas.height = window.innerHeight;
@@ -27,15 +19,11 @@ window.addEventListener("load", () => {
 
     ctx = canvas.getContext("2d");
 
-    canvas.addEventListener("click", (e) => {
-        blackholes.push({
-            x: e.offsetX,
-            y: e.offsetY,
-            mass: 10
-        });
-    
-        drawBlackholes();
-    });
+    addEventListeners(canvas);
+
+    console.log("render");
+
+    render();
 });
 
 window.addEventListener("resize", () => {
@@ -45,18 +33,15 @@ window.addEventListener("resize", () => {
     }
 });
 
-function drawBlackholes() {
-    ctx.fillStyle = "white";
+function render() {
+    if (ctx == undefined) {
+        console.error("ctx is undefined");
+        return;
+    }
+
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    ctx.fillStyle = "black";
+    drawBlackholes(ctx);
 
-    for (let i = 0; i < blackholes.length; i++) {
-        ctx.beginPath();
-
-        ctx.ellipse(blackholes[i].x, blackholes[i].y, blackholes[i].mass, blackholes[i].mass, 0, 0, 2 * Math.PI);
-
-        ctx.fill();
-    }
+    requestAnimationFrame(render);
 }
-
