@@ -3,9 +3,9 @@ import { addEventListeners } from './eventlisteners';
 import { drawBlackholes, setupBlackholes } from './blackholes';
 
 /** @type {HTMLCanvasElement} */
-var canvas
+export var canvas
 /** @type {CanvasRenderingContext2D} */
-var ctx; // screams in js i hate this
+export var ctx; // screams in js i hate this
 
 window.addEventListener("load", () => {
     setupBlackholes();
