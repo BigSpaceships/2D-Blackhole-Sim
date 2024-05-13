@@ -1,21 +1,15 @@
-import './style.css'
-import { addEventListeners } from './eventlisteners';
-import { addBlackhole, drawBlackholes, setupBlackholes } from './blackholes';
-
 /** @type {HTMLCanvasElement} */
-export var canvas
+var canvas
 /** @type {CanvasRenderingContext2D} */
-export var ctx; // screams in js i hate this
+var ctx; // screams in js i hate this
 
 window.addEventListener("load", () => {
-    setupBlackholes();
-
     canvas = document.createElement("canvas");
 
     canvas.height = window.innerHeight;
     canvas.width = window.innerWidth;
 
-    document.getElementById("app").appendChild(canvas);
+    document.body.appendChild(canvas);
 
     ctx = canvas.getContext("2d");
 

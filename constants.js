@@ -1,4 +1,4 @@
-export const G = 1;
-export const c = 1;
+const G = 1;
+const c = 1;
 
-export const scale = 5;
+const scale = 5;

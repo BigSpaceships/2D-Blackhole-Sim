@@ -5,28 +5,21 @@
     * @property {Number} mass
     */
 
-import { G, c, scale } from "./constants";
-import { distance, transformWorldToCanvas } from "./util";
-
 /** @type {Blackhole[]} */
-export var blackholes;
-
-export function setupBlackholes() {
-    blackholes = [];
-}
+var blackholes = [];
 
 /** 
     * @property {Blackhole} blackhole
     * @returns {Number} Schwarzchild radius of blackhole
     */
-export function getRadius(blackhole) {
+function getRadius(blackhole) {
     return 2 * blackhole.mass * G / (c ** 2);
 }
 
 /**
     * @param {Vector} pos
     */
-export function addBlackhole(pos) {
+function addBlackhole(pos) {
     blackholes.push({
         pos,
         mass: 1
@@ -37,7 +30,7 @@ export function addBlackhole(pos) {
     * @param {Vector} pos
     * @returns {Number | undefined} black hole at the position uses radius
     */
-export function getBlackhole(pos) {
+function getBlackhole(pos) {
     for (let i = 0; i < blackholes.length; i++) {
         const blackhole = blackholes[i];
         const holeRadius = getRadius(blackhole);
@@ -55,7 +48,7 @@ export function getBlackhole(pos) {
     * @param {Number} index
     * @param {Vector} pos
     */
-export function moveBlackhole(index, pos) {
+function moveBlackhole(index, pos) {
     blackholes[index].pos.x = pos.x;
     blackholes[index].pos.y = pos.y;
 }
@@ -63,7 +56,7 @@ export function moveBlackhole(index, pos) {
 /** 
     * @param {CanvasRenderingContext2D} ctx
     */
-export function drawBlackholes(ctx) {
+function drawBlackholes(ctx) {
     ctx.fillStyle = "black";
 
     for (let i = 0; i < blackholes.length; i++) {

@@ -1,6 +1,3 @@
-import { addBlackhole, getBlackhole, moveBlackhole } from "./blackholes";
-import { transformCanvasToWorld } from "./util";
-
 /** 
     * Hole that is being moved
     * @type {Number}
@@ -11,7 +8,7 @@ var activeHole = -1;
     * Adds required event listeners to a canvas
     * @param {HTMLCanvasElement} canvas
     */
-export function addEventListeners(canvas) {
+function addEventListeners(canvas) {
     canvas.addEventListener("mousedown", mousedown);
 
     canvas.addEventListener("mousemove", mousemove);
