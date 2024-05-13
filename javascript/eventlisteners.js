@@ -24,7 +24,7 @@ function mousedown(e) {
 
     let index = getBlackhole(clickPos)
 
-    if (index) {
+    if (index !== undefined) {
         activeHole = index;
     } else {
         activeHole = addBlackhole(clickPos);
