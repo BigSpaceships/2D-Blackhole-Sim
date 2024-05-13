@@ -1,6 +1,6 @@
 import './style.css'
 import { addEventListeners } from './eventlisteners';
-import { drawBlackholes, setupBlackholes } from './blackholes';
+import { addBlackhole, drawBlackholes, setupBlackholes } from './blackholes';
 
 /** @type {HTMLCanvasElement} */
 export var canvas
@@ -21,7 +21,9 @@ window.addEventListener("load", () => {
 
     addEventListeners(canvas);
 
-    console.log("render");
+    addBlackhole({
+        pos: { x: 0, y: 0 }
+    })
 
     render();
 });

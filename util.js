@@ -7,6 +7,15 @@ import { scale } from "./constants"
     * @property {Number} y
     */
 
+/**
+    * @param {Vector} pos1
+    * @param {Vector} pos2
+    * @returns {Number}
+    */
+export function distance(pos1, pos2) {
+    return Math.sqrt((pos1.x - pos2.x) ** 2 + (pos1.y - pos2.y) ** 2);
+}
+
 /** 
     * @param {Vector} pos
     * @returns {Vector}

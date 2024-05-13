@@ -6,7 +6,7 @@
     */
 
 import { G, c, scale } from "./constants";
-import { transformWorldToCanvas } from "./util";
+import { distance, transformWorldToCanvas } from "./util";
 
 /** @type {Blackhole[]} */
 export var blackholes;
@@ -42,7 +42,7 @@ export function getBlackhole(pos) {
         const blackhole = blackholes[i];
         const holeRadius = getRadius(blackhole);
 
-        if (((pos.x - blackhole.pos.x) ** 2 + (pos.y - blackhole.pos.y) ** 2) < (holeRadius ** 2)) {
+        if (distance(pos, blackhole.pos) <= holeRadius) {
             return i;
         }
     }
