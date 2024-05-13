@@ -16,7 +16,7 @@ window.addEventListener("load", () => {
     addEventListeners(canvas);
 
     addBlackhole({
-        pos: { x: 0, y: 0 }
+        x: 0, y: 0
     })
 
     render();

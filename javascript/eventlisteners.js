@@ -27,7 +27,7 @@ function mousedown(e) {
     if (index) {
         activeHole = index;
     } else {
-        addBlackhole(clickPos);
+        activeHole = addBlackhole(clickPos);
     }
 }
 

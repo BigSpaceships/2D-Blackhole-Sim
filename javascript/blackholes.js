@@ -17,13 +17,16 @@ function getRadius(blackhole) {
 }
 
 /**
-    * @param {Vector} pos
-    */
-function addBlackhole(pos) {
+ * @param {Vector} pos
+ * @returns {Number} index of added blackhole
+ */
+export function addBlackhole(pos) {
     blackholes.push({
         pos,
-        mass: 1
+        mass: 1,
     });
+
+    return blackholes.length - 1;
 }
 
 /** 
