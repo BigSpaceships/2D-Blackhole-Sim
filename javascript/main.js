@@ -29,6 +29,8 @@ window.addEventListener("resize", () => {
     }
 });
 
+const posStep = .008;
+
 function render() {
     if (ctx == undefined) {
         console.error("ctx is undefined");
@@ -38,6 +40,46 @@ function render() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     drawBlackholes(ctx);
+
+    var pos = {
+        x: 5,
+        y: 0,
+    }
+
+    var velocity = {
+        x: 0,
+        y: 1,
+    }
+
+
+    ctx.strokeStyle = "black";
+    ctx.beginPath();
+
+    const canvasStart = transformWorldToCanvas(pos);
+
+    ctx.moveTo(canvasStart.x, canvasStart.y);
+
+    for (let t = 0; t < 20000; t++) {
+        var acceleration = calculateAcceleration(pos, velocity);
+
+        velocity.x += acceleration.x * posStep;
+        velocity.y += acceleration.y * posStep;
+
+        velocity = normalized(velocity)
+
+        pos.x += velocity.x * posStep;
+        pos.y += velocity.y * posStep;
+
+        if (isNaN(pos.x)) {
+            break;
+        }
+
+        const transformedPos = transformWorldToCanvas(pos)
+
+        ctx.lineTo(transformedPos.x, transformedPos.y);
+    }
+
+    ctx.stroke();
 
     requestAnimationFrame(render);
 }

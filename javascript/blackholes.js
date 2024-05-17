@@ -56,6 +56,95 @@ function moveBlackhole(index, pos) {
     blackholes[index].pos.y = pos.y;
 }
 
+/**
+ * @param {Blackhole} blackhole
+ * @param {Vector} pos
+ * @returns {Vector}
+ */
+function calculateSingleAcceleration(blackhole, pos, velocity) {
+    // sorry this is such a rats nest i don't even know how to explain it right now
+    // if i can ever get it working i'll expain or we can talk in math
+    // also it isn't working at all with multiple black holes for whatever reason
+
+    const dist = distance(pos, blackhole.pos);
+
+    const u = 1 / dist;
+
+    const relativePos = {
+        x: pos.x - blackhole.pos.x,
+        y: pos.y - blackhole.pos.y
+    }
+    
+    const direction = normalized(relativePos)
+    const phi = Math.atan2(direction.y,direction.x)
+    const newPhi = Math.atan2(pos.y + velocity.y * posStep - blackhole.pos.y, pos.x + velocity.x * posStep - blackhole.pos.x);
+
+    let acceleration = 3 * G * blackhole.mass / (c ** 2) * u ** 2 - u;
+    
+    const radialVelocityLength = dot(velocity, direction);
+
+    const radialDirection = {
+        x: -direction.y,
+        y: direction.x,
+    }
+
+    const radialVelocity = {
+        x: radialVelocityLength * direction.x,
+        y: radialVelocityLength * direction.y,
+    }
+
+    const tangentialVelocity = {
+        x: velocity.x - radialVelocity.x,
+        y: velocity.y - radialVelocity.y,
+    }
+
+    const tangentialVelocityLength = dot(tangentialVelocity, radialDirection) * posStep
+
+    const targetVelocityTangential = {
+        x: -Math.sin(newPhi) * tangentialVelocityLength,
+        y: Math.cos(newPhi) * tangentialVelocityLength,
+    }
+
+    const targetRadialVelocity = {
+        x: Math.cos(newPhi) * (radialVelocityLength) * posStep,
+        y: Math.sin(newPhi) * (radialVelocityLength) * posStep,
+    }
+
+    const targetVelocity = {
+        x: targetVelocityTangential.x + targetRadialVelocity.x,
+        y: targetVelocityTangential.y + targetRadialVelocity.y,
+    }
+
+    const accelerationVector = {
+        x: (targetVelocity.x - velocity.x) / posStep,
+        y: (targetVelocity.y - velocity.y) / posStep,
+    }
+
+    return accelerationVector;
+}
+
+/**
+ * @param {Vector} pos
+ * @returns {Vector}
+ */
+function calculateAcceleration(pos, velocity) {
+    var cumulativeAcceleration = {
+        x: 0,
+        y: 0,
+    }
+    for (let i = 0; i < blackholes.length; i++) {
+        const accleration = calculateSingleAcceleration(blackholes[i], pos, velocity);
+
+        cumulativeAcceleration.x += accleration.x;
+        cumulativeAcceleration.y += accleration.y;
+    }
+
+    cumulativeAcceleration.x /= blackholes.length;
+    cumulativeAcceleration.y /= blackholes.length;
+
+    return cumulativeAcceleration;
+}
+
 /** 
     * @param {CanvasRenderingContext2D} ctx
     */

@@ -14,6 +14,36 @@ function distance(pos1, pos2) {
     return Math.sqrt((pos1.x - pos2.x) ** 2 + (pos1.y - pos2.y) ** 2);
 }
 
+/**
+ * @param {Vector} vector
+ * @returns {Vector}
+ */
+function normalized(vector) {
+    const magnitude = Math.sqrt(vector.x ** 2 + vector.y ** 2);
+
+    return {
+        x: vector.x / magnitude,
+        y: vector.y / magnitude,
+    }
+}
+
+/**
+ * @param {Vector} v1
+ * @param {Vector} v2
+ * @returns {Number}
+ */
+function dot(v1, v2) {
+    return v1.x * v2.x + v1.y * v2.y;
+}
+
+/**
+ * @param {Vector} v
+ * @returns {Number}
+ */
+function length(v) {
+    return Math.sqrt(v.x * v.x + v.y * v.y);
+}
+
 /** 
     * @param {Vector} pos
     * @returns {Vector}
