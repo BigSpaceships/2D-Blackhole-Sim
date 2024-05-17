@@ -29,6 +29,13 @@ function addBlackhole(pos) {
     return blackholes.length - 1;
 }
 
+/**
+ * @param {Number} index
+ */
+function removeBlackhole(index) {
+    blackholes.splice(index, 1);
+}
+
 /** 
     * @param {Vector} pos
     * @returns {Number | undefined} black hole at the position uses radius
@@ -104,7 +111,7 @@ function calculateSingleAcceleration(blackhole, pos, velocity) {
         x: -Math.sin(newPhi) * tangentialVelocityLength,
         y: Math.cos(newPhi) * tangentialVelocityLength,
     }
-
+    
     const targetRadialVelocity = {
         x: Math.cos(newPhi) * (radialVelocityLength) * posStep,
         y: Math.sin(newPhi) * (radialVelocityLength) * posStep,

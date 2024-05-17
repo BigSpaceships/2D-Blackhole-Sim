@@ -24,6 +24,13 @@ function mousedown(e) {
 
     let index = getBlackhole(clickPos)
 
+    if (e.ctrlKey) {
+        removeBlackhole(index);
+        activeHole = -1;
+
+        return;
+    }
+
     if (index !== undefined) {
         activeHole = index;
     } else {
