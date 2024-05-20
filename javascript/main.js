@@ -29,7 +29,7 @@ window.addEventListener("resize", () => {
     }
 });
 
-const posStep = .008;
+const posStep = .1;
 
 function render() {
     if (ctx == undefined) {
@@ -59,13 +59,15 @@ function render() {
 
     ctx.moveTo(canvasStart.x, canvasStart.y);
 
-    for (let t = 0; t < 20000; t++) {
-        var acceleration = calculateAcceleration(pos, velocity);
+    for (let t = 0; t < 400; t++) {
+        var [acceleration, targetVelocity] = calculateAcceleration(pos, velocity);
 
-        velocity.x += acceleration.x * posStep;
-        velocity.y += acceleration.y * posStep;
+        // velocity.x += acceleration.x * posStep;
+        // velocity.y += acceleration.y * posStep;
 
-        velocity = normalized(velocity)
+        velocity = targetVelocity
+
+        //velocity = normalized(velocity)
 
         pos.x += velocity.x * posStep;
         pos.y += velocity.y * posStep;

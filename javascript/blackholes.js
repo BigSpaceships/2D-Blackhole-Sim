@@ -63,6 +63,8 @@ function moveBlackhole(index, pos) {
     blackholes[index].pos.y = pos.y;
 }
 
+var output = []
+
 /**
  * @param {Blackhole} blackhole
  * @param {Vector} pos
@@ -83,51 +85,65 @@ function calculateSingleAcceleration(blackhole, pos, velocity) {
     }
     
     const direction = normalized(relativePos)
-    const phi = Math.atan2(direction.y,direction.x)
-    const newPhi = Math.atan2(pos.y + velocity.y * posStep - blackhole.pos.y, pos.x + velocity.x * posStep - blackhole.pos.x);
+    let phi = Math.atan2(direction.y,direction.x);
+    let newPhi = Math.atan2(pos.y + velocity.y * posStep - blackhole.pos.y, pos.x + velocity.x * posStep - blackhole.pos.x);
 
-    let acceleration = 3 * G * blackhole.mass / (c ** 2) * u ** 2 - u;
+    phi = (Math.PI * 2 + phi) % (2 * Math.PI);
+    newPhi = (Math.PI * 2 + newPhi) % (2 * Math.PI);
+
+    const delPhi = Math.min(Math.abs(phi - newPhi), Math.abs(phi - newPhi + 2 * Math.PI), Math.abs(phi - newPhi - 2 * Math.PI));
     
-    const radialVelocityLength = dot(velocity, direction);
-
-    const radialDirection = {
-        x: -direction.y,
-        y: direction.x,
-    }
+    const radialVelocityLength = dot({
+        x: velocity.x * posStep,
+        y: velocity.y * posStep
+    }, direction);
 
     const radialVelocity = {
         x: radialVelocityLength * direction.x,
         y: radialVelocityLength * direction.y,
     }
-
-    const tangentialVelocity = {
-        x: velocity.x - radialVelocity.x,
-        y: velocity.y - radialVelocity.y,
+    
+    const tangentialDirection = {
+        x: -direction.y,
+        y: direction.x,
     }
 
-    const tangentialVelocityLength = dot(tangentialVelocity, radialDirection) * posStep
+    const tangentialVelocityLength = dot({
+        x: velocity.x * posStep,
+        y: velocity.y * posStep,
+    }, tangentialDirection)
+
+    let acceleration = 3 * G * blackhole.mass / (c ** 2) * (u ** 2) - u;
+
+    const du = -(dist ** -2) * radialVelocityLength / delPhi;
+
+    let newdu = du + acceleration * delPhi;
+
+    const newu = u + newdu * delPhi;
+
+    let newRadialVelocity = -newdu * delPhi / (dist ** -2);
+    
+    const targetRadialVelocity = {
+        x: Math.cos(newPhi) * newRadialVelocity,
+        y: Math.sin(newPhi) * newRadialVelocity,
+    }
 
     const targetVelocityTangential = {
         x: -Math.sin(newPhi) * tangentialVelocityLength,
         y: Math.cos(newPhi) * tangentialVelocityLength,
     }
-    
-    const targetRadialVelocity = {
-        x: Math.cos(newPhi) * (radialVelocityLength) * posStep,
-        y: Math.sin(newPhi) * (radialVelocityLength) * posStep,
-    }
 
     const targetVelocity = {
-        x: targetVelocityTangential.x + targetRadialVelocity.x,
-        y: targetVelocityTangential.y + targetRadialVelocity.y,
+        x: (targetVelocityTangential.x + targetRadialVelocity.x) / posStep,
+        y: (targetVelocityTangential.y + targetRadialVelocity.y) / posStep,
     }
 
     const accelerationVector = {
-        x: (targetVelocity.x - velocity.x) / posStep,
-        y: (targetVelocity.y - velocity.y) / posStep,
+        x: (targetVelocity.x - velocity.x),
+        y: (targetVelocity.y - velocity.y),
     }
 
-    return accelerationVector;
+    return [accelerationVector, targetVelocity];
 }
 
 /**
@@ -139,8 +155,13 @@ function calculateAcceleration(pos, velocity) {
         x: 0,
         y: 0,
     }
+
+    var targetVelocity;
+    
     for (let i = 0; i < blackholes.length; i++) {
-        const accleration = calculateSingleAcceleration(blackholes[i], pos, velocity);
+        const [accleration, targetVelocityReturned] = calculateSingleAcceleration(blackholes[i], pos, velocity);
+
+        targetVelocity = targetVelocityReturned;
 
         cumulativeAcceleration.x += accleration.x;
         cumulativeAcceleration.y += accleration.y;
@@ -149,7 +170,7 @@ function calculateAcceleration(pos, velocity) {
     cumulativeAcceleration.x /= blackholes.length;
     cumulativeAcceleration.y /= blackholes.length;
 
-    return cumulativeAcceleration;
+    return [cumulativeAcceleration, targetVelocity];
 }
 
 /** 
