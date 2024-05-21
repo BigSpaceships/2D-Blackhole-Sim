@@ -119,13 +119,11 @@ function calculateSingleAcceleration(blackhole, pos, velocity) {
 
     let newdu = du + acceleration * delPhi;
 
-    const newu = u + newdu * delPhi;
-
-    let newRadialVelocity = -newdu * delPhi / (dist ** -2);
+    let targetRadialVelocityLength = -newdu * delPhi / (dist ** -2);
     
     const targetRadialVelocity = {
-        x: Math.cos(newPhi) * newRadialVelocity,
-        y: Math.sin(newPhi) * newRadialVelocity,
+        x: Math.cos(newPhi) * targetRadialVelocityLength,
+        y: Math.sin(newPhi) * targetRadialVelocityLength,
     }
 
     const targetVelocityTangential = {
@@ -143,7 +141,7 @@ function calculateSingleAcceleration(blackhole, pos, velocity) {
         y: (targetVelocity.y - velocity.y),
     }
 
-    return [accelerationVector, targetVelocity];
+    return accelerationVector;
 }
 
 /**
@@ -151,26 +149,34 @@ function calculateSingleAcceleration(blackhole, pos, velocity) {
  * @returns {Vector}
  */
 function calculateAcceleration(pos, velocity) {
-    var cumulativeAcceleration = {
+    let acceleration = {
         x: 0,
         y: 0,
     }
-
-    var targetVelocity;
     
     for (let i = 0; i < blackholes.length; i++) {
-        const [accleration, targetVelocityReturned] = calculateSingleAcceleration(blackholes[i], pos, velocity);
+        const accelerationReturned = calculateSingleAcceleration(blackholes[i], pos, velocity);
 
-        targetVelocity = targetVelocityReturned;
-
-        cumulativeAcceleration.x += accleration.x;
-        cumulativeAcceleration.y += accleration.y;
+        acceleration.x += accelerationReturned.x;
+        acceleration.y += accelerationReturned.y;
     }
 
-    cumulativeAcceleration.x /= blackholes.length;
-    cumulativeAcceleration.y /= blackholes.length;
+    // targetVelocity.x /= blackholes.length;
+    // targetVelocity.y /= blackholes.length;
 
-    return [cumulativeAcceleration, targetVelocity];
+    return acceleration;
+}
+
+function inBlackholes(point) {
+    for (let i = 0; i < blackholes.length; i++) {
+        const radius = getRadius(blackholes[i]);
+
+        if (distance(blackholes[i].pos, point) <= radius) {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 /** 
