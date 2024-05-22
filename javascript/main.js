@@ -80,12 +80,18 @@ function render() {
 
     drawBlackholes(ctx);
 
-    for (let beta = 0; beta <= Math.PI * 2; beta += 0.2) {
+    const numLines = 200;
 
+    for (let i = 0; i < numLines; i++) {
         var pos = {
-            x: 6,
+            x: 0 + 40 / numLines * 2 * Math.floor(i / 2),
             y: 0,
         }
+
+        pos.x = 6;
+
+        var beta = Math.PI * 2 / numLines * i;
+        // beta = Math.PI / 2 * (i % 2 * 2 - 1)
         
         var velocity = {
             x: Math.cos(beta),

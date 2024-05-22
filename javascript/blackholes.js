@@ -115,6 +115,7 @@ function calculateSingleAcceleration(blackhole, pos, velocity) {
 
     let acceleration = 3 * G * blackhole.mass / (c ** 2) * (u ** 2) - u;
 
+    // TODO: this dies if its moving directly away from a blackhole
     const du = -(dist ** -2) * radialVelocityLength / delPhi;
 
     let newdu = du + acceleration * delPhi;
