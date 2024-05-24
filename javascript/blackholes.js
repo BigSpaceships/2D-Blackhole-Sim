@@ -17,6 +17,22 @@ function getRadius(blackhole) {
 }
 
 /**
+ * @property {Number} mass
+ * @returns {Number} Mass number of blackhole (x10^27)
+ */
+function getMassDisplayNumber(mass) {
+    return mass * 1.35; // 1/(G/c^2)
+}
+
+/**
+ * @property {Number} mass
+ * @returns {Number} mass for simulation
+ */
+function getMassFromDisplay(mass) {
+    return mass / 1.35;
+}
+
+/**
  * @param {Vector} pos
  * @returns {Number} index of added blackhole
  */

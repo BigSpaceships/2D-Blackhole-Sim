@@ -1,17 +1,30 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Blackhole Simulation</title>
-    <link href="style.css" rel="stylesheet" type="text/css">
 
-    <script src="javascript/constants.js"></script>
-    <script src="javascript/util.js"></script>
-    <script src="javascript/blackholes.js"></script>
-    <script src="javascript/eventlisteners.js"></script>
-    <script src="javascript/main.js"></script>
-  </head>
-  <body>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blackhole Simulation</title>
+  <link href="style.css" rel="stylesheet" type="text/css">
+
+  <script src="javascript/constants.js"></script>
+  <script src="javascript/util.js"></script>
+  <script src="javascript/blackholes.js"></script>
+  <script src="javascript/massediting.js"></script>
+  <script src="javascript/eventlisteners.js"></script>
+  <script src="javascript/main.js"></script>
+</head>
+
+<body>
+  <div id="canvas-container"></div>
+  <div class="sidebar">
+    <div id="mass-selector">
+      <h3>Black Hole</h3>
+      <label for="mass-input" id="mass-input-label">Mass: </label>
+      <input id="mass-input" size="1"> <!-- 1.35x10^27 kg is 1 -->
+      <span>x 10<sup>&nbsp;27</sup> kg</span>
+    </div>
+  </div>
+</body>
+
 </html>

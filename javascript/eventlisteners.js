@@ -14,13 +14,16 @@ function addEventListeners(canvas) {
     canvas.addEventListener("mousemove", mousemove);
 
     canvas.addEventListener("mouseup", mouseup);
+
+    canvas.addEventListener("mouseleave", mouseup);
+    canvas.addEventListener("mouseout", mouseup);
 }
 
 /** 
     * @param {MouseEvent} e
     */
 function mousedown(e) {
-    const clickPos = transformCanvasToWorld({x: e.offsetX, y: e.offsetY});
+    const clickPos = transformCanvasToWorld({x: e.clientX, y: e.clientY});
 
     let index = getBlackhole(clickPos)
 
@@ -36,13 +39,15 @@ function mousedown(e) {
     } else {
         activeHole = addBlackhole(clickPos);
     }
+
+    loadHole(index);
 }
 
 /**
     * @param {MouseEvent} e
     */
 function mousemove(e) {
-    const clickPos = transformCanvasToWorld({x: e.offsetX, y: e.offsetY});
+    const clickPos = transformCanvasToWorld({x: e.clientX, y: e.clientY});
 
     if (activeHole != -1) {
         moveBlackhole(activeHole, clickPos);
@@ -53,11 +58,9 @@ function mousemove(e) {
     * @param {MouseEvent} e
     */
 function mouseup(e) {
-    const clickPos = transformCanvasToWorld({x: e.offsetX, y: e.offsetY});
+    const clickPos = transformCanvasToWorld({x: e.clientX, y: e.clientY});
 
     if (activeHole != -1) {
-        moveBlackhole(activeHole, clickPos);
-
         activeHole = -1;
     }
 }

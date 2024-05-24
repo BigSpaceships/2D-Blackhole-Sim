@@ -2,14 +2,18 @@
 var canvas
 /** @type {CanvasRenderingContext2D} */
 var ctx; // screams in js i hate this
+/** @type {HTMLElement} */
+var canvasContainer;
 
 window.addEventListener("load", () => {
     canvas = document.createElement("canvas");
 
-    canvas.height = window.innerHeight;
-    canvas.width = window.innerWidth;
+    canvasContainer = document.getElementById("canvas-container");
 
-    document.body.appendChild(canvas);
+    canvas.height = canvasContainer.clientHeight;
+    canvas.width = canvasContainer.clientWidth;
+
+    canvasContainer.appendChild(canvas);
 
     ctx = canvas.getContext("2d");
 
@@ -24,8 +28,8 @@ window.addEventListener("load", () => {
 
 window.addEventListener("resize", () => {
     if (canvas) {
-        canvas.height = window.innerHeight;
-        canvas.width = window.innerWidth;
+        canvas.height = canvasContainer.innerHeight;
+        canvas.width = canvasContainer.innerWidth;
     }
 });
 
@@ -36,7 +40,7 @@ const posStep = .1;
  * @param {Vector} velocity
  */
 function drawPhoton(pos, velocity) {
-    ctx.strokeStyle = "black";
+    ctx.strokeStyle = "lightyellow";
     ctx.beginPath();
 
     const canvasStart = transformWorldToCanvas(pos);
@@ -70,7 +74,7 @@ function drawPhoton(pos, velocity) {
     ctx.stroke();
 }
 
-function render() {
+function render() { // TODO: move to web worker
     if (ctx == undefined) {
         console.error("ctx is undefined");
         return;
@@ -80,7 +84,7 @@ function render() {
 
     drawBlackholes(ctx);
 
-    const numLines = 200;
+    const numLines = 360;
 
     for (let i = 0; i < numLines; i++) {
         var pos = {
@@ -100,7 +104,6 @@ function render() {
 
         drawPhoton(pos, velocity)
     }
-
 
     requestAnimationFrame(render);
 }

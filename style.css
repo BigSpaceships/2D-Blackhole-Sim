@@ -1,4 +1,7 @@
-html, body, #app {
+:root {
+    --light: lightgoldenrodyellow;
+}
+html, body {
     height: 100%;
     width: 100%;
 
@@ -8,3 +11,59 @@ html, body, #app {
     overflow: hidden;
 }
 
+body {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+
+    background-color: #090635;
+}
+
+#canvas-container {
+    flex-grow: 1;
+}
+
+.sidebar {
+    width: 200px;
+    
+    --light: white;
+
+    border-left: 1px solid var(--light);
+
+    background-color: #181354;
+
+    color: var(--light);
+
+    text-align: center;
+}
+
+.sidebar > * {
+    display: none;
+
+    border-bottom: 1px solid var(--light);
+}
+
+.sidebar > *.show {
+    display: block;
+}
+
+#mass-selector {
+    padding: 8px;
+    padding-bottom: 12px;
+}
+
+#mass-selector h3 {
+    margin: 8px 0px;
+}
+
+#mass-selector input {
+    all: unset;
+
+    border: 1px solid var(--light);
+
+    border-radius: 2px;
+}
+
+#mass-selector input:focus {
+    background-color: rgba(255,255,255,.1)
+}
