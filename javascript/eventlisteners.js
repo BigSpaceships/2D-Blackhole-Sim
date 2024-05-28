@@ -40,7 +40,7 @@ function mousedown(e) {
         activeHole = addBlackhole(clickPos);
     }
 
-    loadHole(index);
+    loadHole(activeHole);
 }
 
 /**

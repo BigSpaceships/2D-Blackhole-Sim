@@ -39,7 +39,7 @@ function getMassFromDisplay(mass) {
 function addBlackhole(pos) {
     blackholes.push({
         pos,
-        mass: 1,
+        mass: getMassFromDisplay(1),
     });
 
     return blackholes.length - 1;
@@ -137,6 +137,10 @@ function calculateSingleAcceleration(blackhole, pos, velocity) {
     let newdu = du + acceleration * delPhi;
 
     let targetRadialVelocityLength = -newdu * delPhi / (dist ** -2);
+
+    if (isNaN(targetRadialVelocityLength)) {
+        targetRadialVelocityLength = radialVelocityLength;
+    }
     
     const targetRadialVelocity = {
         x: Math.cos(newPhi) * targetRadialVelocityLength,
