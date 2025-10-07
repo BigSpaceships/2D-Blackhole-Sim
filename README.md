@@ -6,3 +6,6 @@ Math for the simulation is from [this paper](https://iopscience.iop.org/article/
 Preview is at https://bigspaceships.github.io/2D-Blackhole-Sim/
 
 To control, click on blue to add a black hole, control click to delete a black hole, drag black holes to move them, and when moving them an option to change the mass will pop up on the right
+
+Example:
+<img width="1568" height="1124" alt="image" src="https://github.com/user-attachments/assets/f00f1bb0-6d44-4e17-b0c0-fe1e568bba47" />
