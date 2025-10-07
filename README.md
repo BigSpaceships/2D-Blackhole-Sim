@@ -4,3 +4,5 @@ This is in two dimensions. Repo with 3 dimension is [here](https://github.com/TO
 Math for the simulation is from [this paper](https://iopscience.iop.org/article/10.1088/1742-6596/2653/1/012024) by Radjaroendee, Jamraschai, and Hirunsirisawat
 
 Preview is at https://bigspaceships.github.io/2D-Blackhole-Sim/
+
+To control, click on blue to add a black hole, control click to delete a black hole, drag black holes to move them, and when moving them an option to change the mass will pop up on the right
